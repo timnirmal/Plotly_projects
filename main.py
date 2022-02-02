@@ -101,9 +101,33 @@ lon_topo, lat_topo, topo = Etopo([-90, 90], [-180, 180], 0.8)
 # Convert to spherical coordinates
 xs, ys, zs = mapping_map_to_sphere(lon_topo, lat_topo)
 
-print(xs, ys, zs)
 
+topo_sphere=dict(type='surface',
+  x=xs,
+  y=ys,
+  z=zs,
+  surfacecolor=topo)
 
+import plotly.graph_objs as go
+
+titlecolor = 'white'
+bgcolor = 'black'
+
+layout = go.Layout(
+  autosize=False, width=1200, height=800,
+  title = '3D spherical topography map',
+  titlefont = dict(family='Courier New', color=titlecolor),
+  showlegend = False,
+  scene = dict(
+    aspectmode='manual',
+    aspectratio=go.layout.scene.Aspectratio(
+      x=1, y=1, z=1)),
+  paper_bgcolor = bgcolor,
+  plot_bgcolor = bgcolor)
+
+plot_data=[topo_sphere]
+fig = go.Figure(data=plot_data, layout=layout)
+fig.show()
 
 
 
